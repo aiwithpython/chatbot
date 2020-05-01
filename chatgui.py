@@ -1,3 +1,14 @@
+#########################################################################################################################
+#Now to predict the sentences and get a response from the user to let us create a new file ‘chatapp.py’.
+
+#We will load the trained model and then use a graphical user interface that will predict the response from the bot. 
+#The model will only tell us the class it belongs to, so we will implement some functions which will identify the class 
+#and then retrieve us a random response from the list of responses.
+
+#Again we import the necessary packages and load the ‘words.pkl’ and ‘classes.pkl’ 
+#pickle files which we have created when we trained our model:
+#########################################################################################################################
+
 import nltk
 from nltk.stem import WordNetLemmatizer
 lemmatizer = WordNetLemmatizer()
@@ -12,6 +23,10 @@ intents = json.loads(open('intents.json').read())
 words = pickle.load(open('words.pkl','rb'))
 classes = pickle.load(open('classes.pkl','rb'))
 
+#######################################################################################################
+#To predict the class, we will need to provide input in the same way as we did while training. 
+#So we will create some functions that will perform text preprocessing and then predict the class.
+#######################################################################################################
 
 def clean_up_sentence(sentence):
     # tokenize the pattern - split words into array
@@ -49,6 +64,10 @@ def predict_class(sentence, model):
         return_list.append({"intent": classes[r[0]], "probability": str(r[1])})
     return return_list
 
+######################################################################################
+#After predicting the class, we will get a random response from the list of intents.
+######################################################################################
+
 def getResponse(ints, intents_json):
     tag = ints[0]['intent']
     list_of_intents = intents_json['intents']
@@ -63,6 +82,11 @@ def chatbot_response(msg):
     res = getResponse(ints, intents)
     return res
 
+####################################################################################################################
+#Now we will code a graphical user interface. For this, we use the Tkinter library which already comes in python. 
+#We will take the input message from the user and then use the helper functions we have created to get the response 
+#from the bot and display it on the GUI. Here is the full source code for the GUI.
+####################################################################################################################
 
 #Creating GUI with tkinter
 import tkinter
